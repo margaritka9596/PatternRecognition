@@ -103,8 +103,8 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
             w01(2, 1) =  w01(2, 1) + coeff * bias(1, 2) * deltaHidden(2);
             %hidden neurons
             for k = 2 : numInputsWithBias
-                w01(1, k) =  w01(1, k) + coeff * X(j, k - 1) * deltaHidden(1);
-                w01(2, k) =  w01(2, k) + coeff * X(j, k - 1) * deltaHidden(2);
+               w01(1, k) =  w01(1, k) + coeff * X(j, k - 1) * deltaHidden(1);
+               w01(2, k) =  w01(2, k) + coeff * X(j, k - 1) * deltaHidden(2);
             end
 
             for k = 1 : numOutputNeurons

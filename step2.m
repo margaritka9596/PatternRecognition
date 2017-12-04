@@ -29,7 +29,7 @@ n_folds = 5;
 % Learning coefficient
 l_rate = 0.9;%0 .3
 n_epoch = 400;
-n_hidden = 3;
+n_hidden = 2;
 
 %start notifying the time
 tic;
