@@ -27,9 +27,9 @@ end
 [train_data, train_class, test_data, test_class] = divide_data(data, output);
 n_folds = 5;
 % Learning coefficient
-l_rate = 0.9;%0 .3
-n_epoch = 400;
-n_hidden = 2;
+l_rate = -0.9;%0.3
+n_epoch = 500;
+n_hidden = 5;
 
 %start notifying the time
 tic;
@@ -41,11 +41,32 @@ neuron_net(data, output, l_rate, n_hidden, n_epoch);
 resData = matfile('y0.mat');
 res = resData.y0;
 newY0 = output_transformation(res);
-num_true_predicted(output, newY0);
+
+newOutputData = matfile('y.mat');
+newOutput = newOutputData.y;
+
+num_true_predicted(newOutput, newY0);
 %}
 
 %num_true_predicted(output, newY0);
 
 toc;
 
+
+%потом оязательно переписать через лямбду
+%{
+Nd = size(data, 2);
+
+val = {};
+for i = 1 : Nd
+    val = val + {data(i,:)};
+end
+
+val = arrayfun(@(x) ({x}), data);
+disp(val);
+mapObj = containers.Map(labels, val)
+%}
+%mapObj = containers.Map(labels, arrayfun(@(x) ({x}), data))
+%bn = size(data, 2);
+%mapObj = containers.Map(labels, cellfun(@(x) x(1:bn), data,'UniformOutput', false));
 

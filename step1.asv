@@ -15,7 +15,7 @@ for i = 3 : N
 
         X = pos(:, 1);
         Y = pos(:, 2);
-        figure('visible', 'off');
+        %figure('visible', 'off');
         %минимальный описывающий квадрат нужен, это говнище
         axis auto
 
@@ -23,15 +23,15 @@ for i = 3 : N
         set(gca, 'Visible', 'off');
         saveas(f1, 'img', 'png')
         %print('img2','-dpng', '-noui')
-        img = imread('img.png');
+        %img = rgb2gray(imread('img.png'));
+        img = im2bw(imread('img.png'), 0.9);
+        %imshow(img);
         img = imresize(img,[n m]);
-        img = rgb2gray(img);
-        %img = im2bw(img, 0.99);
-        imshow(img);
+        %imshow(img);
         el = reshape(img, 1, []);
         data(i - 2,:) = el;
         disp(i);
 end
-%data = data / 255;
+data = data / 255;
 save('data.mat','data');
 
