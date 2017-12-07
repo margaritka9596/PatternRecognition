@@ -11,7 +11,7 @@ clear all, close all, clc;
 %testdata
 %7)make testing for real test data
 %8)implement the possibility to change num of neurons per layer
-
+%сравнивать ттак результаты некорректно, так как в первом случае сч
 inputData = matfile('data.mat');
 data = inputData.data;
 samples = size(data, 1);
@@ -27,37 +27,41 @@ end
 [train_data, train_class, test_data, test_class] = divide_data(data, output);
 n_folds = 5;
 % Learning coefficient
-l_rate = -0.1;%0.3
-n_epoch = 500;
-n_hidden = 4;
-
+l_rate = 0.01;%0.3
+n_epoch = 1;
+n_hidden = 3;
+a = 1;
 %start notifying the time
 tic;
 
 %flag = 0; %0 = train net| 1 = test net
 %neuron_net(data, output, l_rate, n_hidden, n_epoch);
-neuron_net(train_data, train_class, l_rate, n_hidden, n_epoch);
+neuron_net(train_data, train_class, l_rate, a, n_hidden, n_epoch);
 
-resData = matfile('y0.mat');
-res = resData.y0;
-newY0 = output_transformation(res);
+resData1 = matfile('y0.mat');
+res1 = resData1.y0;
+newY0_1 = output_transformation(res1);
 
 newOutputData = matfile('y.mat');
 newOutput = newOutputData.y;
 
-num_true_predicted(newOutput, newY0);
+num_true_predicted(newOutput, newY0_1);
 %}
 
-%__________________________________________________________________________
-weightsData = matfile('w01.mat');
+disp('__________________________________________________________________________');
+weightsData = matfile('w01_before_cor.mat');
 w01 = weightsData.w01;
-weightsData = matfile('w12.mat');
+weightsData = matfile('w12_before_cor.mat');
 w12 = weightsData.w12;
 
 
-test_net(test_data, n_hidden, w01, w12);
-save('y0_test.mat','y0');
-num_true_predicted(output, newY0);
+test_net(train_data, n_hidden, w01, w12, a);
+
+resData2 = matfile('y0_test.mat');
+res2 = resData2.y0;
+newY0_2 = output_transformation(res2);
+
+num_true_predicted(newY0_2, train_class);
 
 toc;
 

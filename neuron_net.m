@@ -18,11 +18,14 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
     %w01 = (-1 + 2 .* rand(numHiddenNeurons, numInputsWithBias)) / (2 * numSamples); %weights for edges from input to first layer | +1 for bias
     %w12 = (-1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias)) / (2 * numHiddenNeurons); %weights for edges from first layer to output one |+1 for bias
     
-    %w01 = -1 + 2 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
-    %w12 = -1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
+    w01 = -1 + 2 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
+    w12 = -1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
     
-    w01 = 1 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
-    w12 = 1 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
+    %w01 = 1 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
+    %w12 = 1 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
+    
+    %w01 = zeros(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
+    %w12 = zeros(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
 
     H = zeros(numHiddenNeurons, 1);
     X1 = zeros(numHiddenNeurons, 1);
@@ -36,7 +39,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
     QcurEpoch = 0;
     QcurEpochVec = rand(numSamples, 1) * 2 - 1; %нафиг если потом нулями забиваешь?
     QEpochs = zeros(1, n_epoch);
-    eps = 10^-5;
+    eps = 10^-10;
     %a = 5.3;
     %a = 1;
     
@@ -104,6 +107,8 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
             % And use the new weights to repeat process.
             % delta weight = coeff * x * delta
             % корректировка весов
+            %save('w01_before_cor.mat','w01');
+            %save('w12_before_cor.mat','w12');
             tau = 0.2;
             regular = (1 + coeff * tau);
             %%!
@@ -124,6 +129,12 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
                 end          
             end
            %disp(deltaHidden); 
+           %y0(j, :) = zeros(1, numOutputNeurons);   %output layer
+           %deltaOutput = zeros(numOutputNeurons, 1);
+           %deltaHidden = zeros(numHiddenNeurons, 1);
+           %H = zeros(numHiddenNeurons, 1);
+           %X1 = zeros(numHiddenNeurons, 1);
+           %X2 = zeros(numOutputNeurons, 1);
        end
       %___________________________________________________________________
       QcurEpoch = sum(QcurEpochVec) / (2 * numSamples);
@@ -167,7 +178,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
      QEpochs(i) = QcurEpoch;
      QprevEpoch = QcurEpoch;
       %___________________________________________________________________
-     %{
+     
      ind = randperm(numSamples);
      y = y(ind, :);
      X = X(ind, :);
@@ -175,7 +186,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
      %___________________________________________________________________
      disp(i);
      i = i + 1;
-     y0(j,:) = zeros(1, numOutputNeurons);   %output layer
+     
      end
 %disp(QEpochs(1:100));
 

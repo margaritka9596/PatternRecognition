@@ -21,7 +21,7 @@ for i = 3 : N
 
         f1 = plot(X, Y);
         set(gca, 'Visible', 'off');
-        saveas(f1, 'img', 'png')
+        saveas(f1, 'img', 'png') 
         %print('img2','-dpng', '-noui')
         img = imread('img.png');
         img = imresize(img,[n m]);

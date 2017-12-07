@@ -11,7 +11,12 @@ clear all, close all, clc;
 %testdata
 %7)make testing for real test data
 %8)implement the possibility to change num of neurons per layer
-
+%сравнивать ттак результаты некорректно, так как в первом случае считается
+%выход по изменяющимся и тренирующимся весам, а во втором уже готовые веса
+%и мы прогоняем 1000 семплов
+%теперь второй вопрос, почему всегда предсказывает одну цифру, это же говно
+%и надо узнать почему 1) либо сама проверка говно 2) плохо натренированные
+%веса
 inputData = matfile('data.mat');
 data = inputData.data;
 samples = size(data, 1);
@@ -27,9 +32,9 @@ end
 [train_data, train_class, test_data, test_class] = divide_data(data, output);
 n_folds = 5;
 % Learning coefficient
-l_rate = 0.9;%0.3
-n_epoch = 500;
-n_hidden = 20;
+l_rate = 0.3;%0.3
+n_epoch = 200;
+n_hidden = 15;
 a = 1;
 %start notifying the time
 tic;
@@ -38,14 +43,14 @@ tic;
 %neuron_net(data, output, l_rate, n_hidden, n_epoch);
 neuron_net(train_data, train_class, l_rate, a, n_hidden, n_epoch);
 
-resData = matfile('y0.mat');
-res = resData.y0;
-newY0 = output_transformation(res);
+resData1 = matfile('y0.mat');
+res1 = resData1.y0;
+newY0_1 = output_transformation(res1);
 
 newOutputData = matfile('y.mat');
 newOutput = newOutputData.y;
 
-num_true_predicted(newOutput, newY0);
+num_true_predicted(newOutput, newY0_1);
 %}
 
 disp('__________________________________________________________________________');
@@ -57,11 +62,11 @@ w12 = weightsData.w12;
 
 test_net(train_data, n_hidden, w01, w12, a);
 
-resData = matfile('y0_test.mat');
-res = resData.y0;
-newY0 = output_transformation(res);
+resData2 = matfile('y0_test.mat');
+res2 = resData2.y0;
+newY0_2 = output_transformation(res2);
 
-num_true_predicted(newY0, train_class);
+num_true_predicted(newY0_2, train_class);
 
 toc;
 
