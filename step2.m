@@ -43,7 +43,7 @@ tic;
 
 %flag = 0; %0 = train net| 1 = test net
 %neuron_net(data, output, l_rate, n_hidden, n_epoch);
-neuron_net(train_data, train_class, l_rate, a, n_hidden, n_epoch);
+%neuron_net(train_data, train_class, l_rate, a, n_hidden, n_epoch);
 
 resData1 = matfile('y0.mat');
 res1 = resData1.y0;

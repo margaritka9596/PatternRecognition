@@ -3,10 +3,15 @@ addpath('training_data');
 
 files = dir('training_data');
 N = size(files, 1);
-n = 40;
-m = 40;
+n = 40; m = 40; 
 imgSize = n * m;
 data = zeros(N - 2, imgSize);
+numHiddenNeurons = 16;
+a = 0.3;
+weightsData = matfile('w01.mat');
+w01 = weightsData.w01;
+weightsData = matfile('w12.mat');
+w12 = weightsData.w12;
 
 for i = 3 : N
         %image preprocessing step
@@ -25,13 +30,18 @@ for i = 3 : N
         %print('img2','-dpng', '-noui')
         img = imread('img.png');
         img = imresize(img,[n m]);
-        img = rgb2gray(img);
-        %img = im2bw(img, 0.99);
-        imshow(img);
+        img = im2bw(img, 0.99);
+        %imshow(img);
         el = reshape(img, 1, []);
-        data(i - 2,:) = el;
-        disp(i);
+        
+        fprintf('Iter_num = %d\n', i - 2);
+        y0 = one_img_prediction(el, numHiddenNeurons, w01, w12, a);
+        newY0 = output_transformation(y0);
+        ind = find(newY0 == 1);
+        fprintf('It is %d\n', ind - 1);
+        disp('');
+        
 end
 %data = data / 255;
-save('data.mat','data');
+%save('data.mat','data');
 
