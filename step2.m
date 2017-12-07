@@ -27,16 +27,16 @@ end
 [train_data, train_class, test_data, test_class] = divide_data(data, output);
 n_folds = 5;
 % Learning coefficient
-l_rate = -0.9;%0.3
+l_rate = 0.9;%0.3
 n_epoch = 500;
-n_hidden = 5;
-
+n_hidden = 20;
+a = 1;
 %start notifying the time
 tic;
 
 %flag = 0; %0 = train net| 1 = test net
-neuron_net(data, output, l_rate, n_hidden, n_epoch);
-
+%neuron_net(data, output, l_rate, n_hidden, n_epoch);
+neuron_net(train_data, train_class, l_rate, a, n_hidden, n_epoch);
 
 resData = matfile('y0.mat');
 res = resData.y0;
@@ -48,7 +48,20 @@ newOutput = newOutputData.y;
 num_true_predicted(newOutput, newY0);
 %}
 
-%num_true_predicted(output, newY0);
+disp('__________________________________________________________________________');
+weightsData = matfile('w01.mat');
+w01 = weightsData.w01;
+weightsData = matfile('w12.mat');
+w12 = weightsData.w12;
+
+
+test_net(train_data, n_hidden, w01, w12, a);
+
+resData = matfile('y0_test.mat');
+res = resData.y0;
+newY0 = output_transformation(res);
+
+num_true_predicted(newY0, train_class);
 
 toc;
 
@@ -69,4 +82,5 @@ mapObj = containers.Map(labels, val)
 %mapObj = containers.Map(labels, arrayfun(@(x) ({x}), data))
 %bn = size(data, 2);
 %mapObj = containers.Map(labels, cellfun(@(x) x(1:bn), data,'UniformOutput', false));
+
 

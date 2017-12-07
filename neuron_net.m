@@ -1,6 +1,7 @@
 %отличия от работающей проги
 %1)входные данные от 0 до 1, а не тупо 0 и 1
-function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
+%2)не мешаю объекты
+function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
     numSamples = size(X, 1);
     numInputs = size(X, 2);
     
@@ -17,8 +18,11 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
     %w01 = (-1 + 2 .* rand(numHiddenNeurons, numInputsWithBias)) / (2 * numSamples); %weights for edges from input to first layer | +1 for bias
     %w12 = (-1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias)) / (2 * numHiddenNeurons); %weights for edges from first layer to output one |+1 for bias
     
-    w01 = -1 + 2 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
-    w12 = -1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
+    %w01 = -1 + 2 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
+    %w12 = -1 + 2 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
+    
+    w01 = 1 .* rand(numHiddenNeurons, numInputsWithBias); %weights for edges from input to first layer | +1 for bias
+    w12 = 1 .* rand(numOutputNeurons, numHiddenNeurWithBias); %weights for edges from first layer to output one |+1 for bias
 
     H = zeros(numHiddenNeurons, 1);
     X1 = zeros(numHiddenNeurons, 1);
@@ -34,7 +38,7 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
     QEpochs = zeros(1, n_epoch);
     eps = 10^-5;
     %a = 5.3;
-    a = 1;
+    %a = 1;
     
     i = 1;
     %for i = 1 : n_epoch
@@ -58,7 +62,7 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
               for k = 2 : numHiddenNeurWithBias
                   X2(s) = X2(s) + X1(k - 1) * w12(s, k);
               end
-              y0(j,s) = sigma(a, X2(s));
+              y0(j, s) = sigma(a, X2(s));
             end
 
             % Adjust delta values of weights
@@ -71,9 +75,9 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
             %%%%
             QcurEpochVec(j) = 0;
             for k = 1 : numOutputNeurons
-                %deltaOutput(k) = y0(j, k) * (1 - y0(j, k)) * (y(j, k) - y0(j, k)); %jй sample для него ответ
+                deltaOutput(k) = y0(j, k) * (1 - y0(j, k)) * (y(j, k) - y0(j, k)); %jй sample для него ответ
                 %deltaOutput(k) = y0(j, k) * diff_sigma(a, y0(j, k)) * (y(j, k) - y0(j, k)); %jй sample для него ответ
-                deltaOutput(k) = diff_sigma(a, y0(j, k)) * (y(j, k) - y0(j, k)); %jй sample для него ответ
+                %deltaOutput(k) = diff_sigma(a, y0(j, k)) * (y(j, k) - y0(j, k)); %jй sample для него ответ
                 %среднеквадратическая ошибка
                 QcurEpochVec(j) = QcurEpochVec(j) + (y(j, k) - y0(j, k))^2;
             end
@@ -91,9 +95,9 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
                  %  * сумма дельт помноженных на веса выходного слоя с минусом(без ,,-" в конечной формуле)
                  sum1 = sum1 + deltaOutput(s) * w12(s, k + 1); %k+1 потому что в 1м для биаса
               end
-              %deltaHidden(k) = X1(k) * (1 - X1(k)) * sum1; % netpj * производную сигма функции * sum
+              deltaHidden(k) = X1(k) * (1 - X1(k)) * sum1; % netpj * производную сигма функции * sum
               %deltaHidden(k) = X1(k) * diff_sigma(a, X1(k)) * sum1; % netpj * производную сигма функции * sum
-              deltaHidden(k) = diff_sigma(a, X1(k)) * sum1; % netpj * производную сигма функции * sum
+              %deltaHidden(k) = diff_sigma(a, X1(k)) * sum1; % netpj * производную сигма функции * sum
             end
 
             % Add weight changes to original weights 
@@ -102,6 +106,8 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
             % корректировка весов
             tau = 0.2;
             regular = (1 + coeff * tau);
+            %%!
+            regular = 1;
             for k1 = 1 : numHiddenNeurons
                 %bias
                 w01(k1, 1) =  w01(k1, 1) * regular + coeff * bias(1, k1) * deltaHidden(k1);
@@ -144,7 +150,7 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
         break;
       end
 
-      %{
+      
       if i > 1 % this is not the first epoch
         if abs(QcurEpoch - QprevEpoch) < eps % the improvement is small enough
             disp('the improvement is small enough');
@@ -169,6 +175,7 @@ function [] = neuron_net(X, y, coeff, numHiddenNeurons, n_epoch)
      %___________________________________________________________________
      disp(i);
      i = i + 1;
+     y0(j,:) = zeros(1, numOutputNeurons);   %output layer
      end
 %disp(QEpochs(1:100));
 

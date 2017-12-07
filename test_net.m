@@ -1,8 +1,8 @@
-function [] = test_net(X, y, w01, w12)
+function [] = test_net(X, numHiddenNeurons, w01, w12, a)
     numSamples = size(X, 1);
     numInputs = size(X, 2);
 
-    numHiddenNeurons = 2;  %first layer
+    %numHiddenNeurons = 2;  %first layer
     numOutputNeurons = 10; %second layer
 
     % Initialize the bias (weights of each neuron)
@@ -27,8 +27,8 @@ function [] = test_net(X, y, w01, w12)
             H(s) = H(s) + X(j, k - 1) * w01(s, k);
           end
 
-          % Send data through sigmoid function 1/1+e^-x
-          X1(s) = sigma(H(s)); 
+          % Send data through sigmoid function 1/1+e^-ax
+          X1(s) = sigma(a, H(s)); 
         end
 
         % Output layer
@@ -37,7 +37,7 @@ function [] = test_net(X, y, w01, w12)
           for k = 2 : numHiddenNeurWithBias
               X2(s) = X2(s) + X1(k - 1) * w12(s, k);
           end
-          y0(j,s) = sigma(X2(s));
+          y0(j,s) = sigma(a, X2(s));
         end 
     end
     
