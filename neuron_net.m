@@ -39,7 +39,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
     QcurEpoch = 0;
     QcurEpochVec = rand(numSamples, 1) * 2 - 1; %нафиг если потом нулями забиваешь?
     QEpochs = zeros(1, n_epoch);
-    eps = 10^-10;
+    eps = 10^-6;
     %a = 5.3;
     %a = 1;
     
@@ -139,7 +139,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
       %___________________________________________________________________
       QcurEpoch = sum(QcurEpochVec) / (2 * numSamples);
       %disp(QcurEpoch);
-      if (mod(i, 1) == 0) % Plot convergence, but not for every epoch
+      if (mod(i, 5) == 0) % Plot convergence, but not for every epoch
         semilogy(1 : i, QEpochs(1 : i));
         title(sprintf('Convergence (epoch %d)', i));
         drawnow;

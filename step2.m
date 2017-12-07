@@ -32,10 +32,12 @@ end
 [train_data, train_class, test_data, test_class] = divide_data(data, output);
 n_folds = 5;
 % Learning coefficient
-l_rate = 0.3;%0.3
-n_epoch = 200;
-n_hidden = 15;
-a = 1;
+l_rate = 0.1;%0.3
+n_epoch = 120;
+n_hidden = 16;
+a = 0.3;
+%32%_0.3_120_16_0.3
+%49%_0.2_300_16_0.3
 %start notifying the time
 tic;
 
