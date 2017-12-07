@@ -145,7 +145,7 @@ function [] = neuron_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
         drawnow;
       end
 
-      if QcurEpoch < 0.005 % the learning is good enough
+      if QcurEpoch < 0.05 % the learning is good enough
           disp('the learning is good enough');
           disp(QEpochs(1:i));
           save('y.mat','y');

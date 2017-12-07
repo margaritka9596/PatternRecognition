@@ -33,7 +33,7 @@ end
 n_folds = 5;
 % Learning coefficient
 l_rate = 0.1;%0.3
-n_epoch = 120;
+n_epoch = 200;
 n_hidden = 16;
 a = 0.3;
 %32%_0.3_120_16_0.3
@@ -62,13 +62,13 @@ weightsData = matfile('w12.mat');
 w12 = weightsData.w12;
 
 
-test_net(train_data, n_hidden, w01, w12, a);
+test_net(test_data, n_hidden, w01, w12, a);
 
 resData2 = matfile('y0_test.mat');
 res2 = resData2.y0;
 newY0_2 = output_transformation(res2);
 
-num_true_predicted(newY0_2, train_class);
+num_true_predicted(newY0_2, test_class);
 
 toc;
 
