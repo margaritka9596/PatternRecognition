@@ -83,7 +83,7 @@ function [w01, w12] = train_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
             % Add weight changes to original weights 
             % And use the new weights to repeat process.
             % delta weight = coeff * x * delta
-            % корректировка весов
+            % correction of weights
             %tau = 0.2;
             %regular = (1 + coeff * tau);
             %%!
@@ -113,31 +113,31 @@ function [w01, w12] = train_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
         drawnow;
       end
 
-      if QcurEpoch < 0.05 % the learning is good enough
+      if QcurEpoch < 0.05 % if the learning is good enough
           disp('the learning is good enough');
-          disp(QEpochs(1:i));
-          save('y.mat','y');
-          save('y0.mat','y0');
+          %disp(QEpochs(1:i));
+          %save('y.mat','y');
+          %save('y0.mat','y0');
           break;
       end
 
-      if i >= n_epoch % too many epochs would be done
+      if i >= n_epoch %if too many epochs would be done
         disp('end by num of epochs was done');
-        disp(QEpochs(1:i));
-        save('y.mat','y');
-        save('y0.mat','y0');
+        %disp(QEpochs(1:i));
+        %save('y.mat','y');
+        %save('y0.mat','y0');
         break;
       end
 
       if i > 1 % if this is not the first epoch
         if abs(QcurEpoch - QprevEpoch) < eps        %the improvement is small enough
             disp('the improvement is small enough');
-            disp(QprevEpoch); disp(QcurEpoch);
-            disp(QcurEpoch - QprevEpoch);
-            disp(QEpochs(1:i));
+            %disp(QprevEpoch); disp(QcurEpoch);
+            %disp(QcurEpoch - QprevEpoch);
+            %disp(QEpochs(1:i));
             %disp(QEpochs);
-            save('y.mat','y');
-            save('y0.mat','y0');
+            %save('y.mat','y');
+            %save('y0.mat','y0');
           break;
         end
       end
@@ -153,7 +153,7 @@ function [w01, w12] = train_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
      disp(i);
      i = i + 1;    
     end
-save('w01.mat','w01');
-save('w12.mat','w12');
-disp('End');
+%save('w01.mat','w01');
+%save('w12.mat','w12');
+disp('End of training');
 end

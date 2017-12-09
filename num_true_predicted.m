@@ -1,3 +1,4 @@
+%Counting true and false predicted objects
 function [] = num_true_predicted(expected, result)
     n = size(expected, 1);
     cnt_true = 0;
