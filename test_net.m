@@ -1,13 +1,11 @@
-function [] = test_net(X, numHiddenNeurons, w01, w12, a)
+function [y0] = test_net(X, numHiddenNeurons, w01, w12, a)
     numSamples = size(X, 1);
     numInputs = size(X, 2);
 
-    %numHiddenNeurons = 2;  %first layer
     numOutputNeurons = 10; %second layer
 
     % Initialize the bias (weights of each neuron)
-    bias = ones(2, max(numHiddenNeurons, numOutputNeurons));    %2 - num of layers
-    bias = -1 * bias;
+    bias = -1 * ones(2, max(numHiddenNeurons, numOutputNeurons));    %2 - num of layers    
 
     % Calculate weights randomly using seed.
     rand('state', sum(100 * clock));
@@ -40,6 +38,5 @@ function [] = test_net(X, numHiddenNeurons, w01, w12, a)
           y0(j,s) = sigma(a, X2(s));
         end 
     end
-    
-save('y0_test.mat','y0');
+%save('y0_test.mat','y0');
 end
