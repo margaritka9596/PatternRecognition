@@ -1,4 +1,23 @@
 function [w01, w12] = train_net(X, y, coeff, a, numHiddenNeurons, n_epoch)
+%train_net Weights for the neural network. 
+%   train_net(train_data, train_class, l_rate, a, n_hidden, n_epoch) gives
+%   weights to parameters.
+%
+%   Example:
+%      [w01, w12] = train_net(train_data, train_class, l_rate, a, n_hidden, n_epoch)
+%
+%   Input Arguments:
+%      Train_data: matrix of the train data values
+%      Train_class: matrix of the classes values on train
+%      L_rate: value of the learning rate
+%      A: valuealue of the sigma function
+%      N_hidden: amount of hidden layers
+%      N_epoch: amount of iterations
+%
+%   Output Arguments:
+%      w01: weights for edges from input to first layer
+%      w12: weights for edges from first layer to output one
+
     numSamples = size(X, 1);
     numInputs = size(X, 2);
     

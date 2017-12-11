@@ -49,4 +49,5 @@ newY0_2 = output_transformation(y0_2);
 
 num_true_predicted(newY0_2, test_class);
 
+cross_validation(data, output, n_hidden, w01, w12, a);
 

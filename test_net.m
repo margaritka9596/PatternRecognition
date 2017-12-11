@@ -1,4 +1,20 @@
 function [y0] = test_net(X, numHiddenNeurons, w01, w12, a)
+%Test_net implemented forward step of training algorithm 
+%   Does it for given samples using evaluated weights from the train_net
+%
+%   Example:
+%      y0_1 = test_net(train_data, n_hidden, w01, w12, a);
+%
+%   Input Arguments:
+%      Train_data: matrice of the train data values
+%      numHiddenNeurons: amount of hidden neurons
+%      W01: weights for edges from input to first layer
+%      W12: weights for edges from first layer to output one
+%      A: Value of the sigma function
+%
+%   Output Arguments:
+%      Y0_1: results from the output layer
+
     numSamples = size(X, 1);
     numInputs = size(X, 2);
 

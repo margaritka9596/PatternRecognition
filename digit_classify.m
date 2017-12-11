@@ -1,8 +1,18 @@
 function [C] = digit_classify(testdata)
+%Digit_classify: gives answer about the truthless of the prediction
+%
+%   Example: digit_classify(testdata)
+%
+%   Input Arguments: 
+%      Testdata - matrix with the test data
+%
+%   Output Arguments:
+%      C - symbol which is drown on the picture
+
     %This code provides the representation of prediction digits for one image
     %using the weights for net which were evaluated
     %before (during the training process)
- 
+
     n = 40; m = 40; 
     imgSize = n * m;
 
