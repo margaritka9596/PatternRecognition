@@ -26,6 +26,8 @@ function [C] = digit_classify(testdata)
     %image preprocessing step
     X = testdata(:, 1);
     Y = testdata(:, 2);
+    Z = testdata(:, 3);
+    scatter3(Z, -X, Y, 'diamond');
     %figure('visible', 'off');
     axis auto
 
@@ -35,9 +37,10 @@ function [C] = digit_classify(testdata)
     img = imread('img.png');
     img = imresize(img,[n m]);
     img = im2bw(img, 0.99);
-    %imshow(img);
+    imshow(img);    
+    
     el = reshape(img, 1, []);
-
+    el2 = el';
     y0 = test_net(el, numHiddenNeurons, w01, w12, a);
     newY0 = output_transformation(y0);
     ind = find(newY0 == 1);
